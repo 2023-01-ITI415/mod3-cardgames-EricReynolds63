@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7fc9d2867f51b43a08eed477d6918c, type: 3}
+  m_Name: CardSprites
+  m_EditorClassIdentifier: 
+  cardBack: {fileID: 5781487900595204849, guid: a8185ed8d47594bb8a3b8e2d9233f769,
+    type: 3}
+  cardBackGold: {fileID: 5828774157582541231, guid: 8ecf4828943064b3a96f6258b54c0f11,
+    type: 3}
+  cardFront: {fileID: -6342509809414427620, guid: 873a7658b7ec742228520c7b15510f4d,
+    type: 3}
+  cardFrontGold: {fileID: 7763024756852999351, guid: 944dc539459fe4109b973bd4c97f68ee,
+    type: 3}
+  suitClub: {fileID: -2022447005901910531, guid: f2e3abd22e9ae4d17ab5c0659ff3e024,
+    type: 3}
+  suitDiamond: {fileID: 3283071777906387301, guid: f8c2745f3b53149c595d8fde43185468,
+    type: 3}
+  suitHeart: {fileID: -8411694617196797062, guid: 3f3ffa8970b63467cad6ba98725b1c95,
+    type: 3}
+  suitSpade: {fileID: 5998817178737254285, guid: a7994da692eef4500be008b80674eecb,
+    type: 3}
+  faceSprites:
+  - {fileID: 8969718563264837797, guid: 0044ad2d99ea04858a663c3491cc9a91, type: 3}
+  - {fileID: -1767231233294308817, guid: c10418368653749f796f63e87cde78ec, type: 3}
+  - {fileID: -7640041732149626053, guid: 21a6739a4135346e6956ca54075d8c25, type: 3}
+  - {fileID: -736983132632728016, guid: 21570ac654411438d8f6cc233ffb28e4, type: 3}
+  - {fileID: -7124143385679510509, guid: d86c46d6378144162964786d621fb0ca, type: 3}
+  - {fileID: 5646825902851439288, guid: 4ec6a5b1f47934636a6280e5abb475f8, type: 3}
+  - {fileID: -6264446624647358249, guid: ee100e0d0a1c04759a5a7537cf5e8752, type: 3}
+  - {fileID: 939978953519550376, guid: 1b117bad312e24b2791cbc7dd2ea6d87, type: 3}
+  - {fileID: -7164030887787994064, guid: c6955b0be0ed8469d8907eb75524a9d8, type: 3}
+  - {fileID: -8163461293649005745, guid: 6f1efb7f571f948dfa995e521af3100a, type: 3}
+  - {fileID: -8402809532987419685, guid: ef50d4f09a2b3425fbbdb8ad5f8957b0, type: 3}
+  - {fileID: 8472956440544029004, guid: a61ea2d4e7838406b97649cd8a3f3f34, type: 3}
+  rankSprites:
+  - {fileID: 3511996523978390141, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: -2261305175963411493, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 617603048062758181, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 3452093454667083448, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 3173584283160508882, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 166422559232659144, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: -8277944437088134005, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 3559515457512599280, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 8109854217852864694, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 8831277627142835406, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 6916494102344939985, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 1921014744415982970, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: 6574757499795186916, guid: d0c845d4237544f98853405c6817ee79, type: 3}
+  - {fileID: -1375566778094241972, guid: d0c845d4237544f98853405c6817ee79, type: 3}
