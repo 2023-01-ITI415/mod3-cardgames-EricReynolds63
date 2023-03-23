@@ -249,6 +249,8 @@ public class Prospector : MonoBehaviour {
         CardSpritesSO.RESET();
         Invoke ("ReloadLevel", roundDelay);
         // SceneManager.LoadScene("__Prospector_Scene_0");
+
+		UITextManager.GAME_OVER_UI(won);
     }
 
     void ReloadLevel() {
