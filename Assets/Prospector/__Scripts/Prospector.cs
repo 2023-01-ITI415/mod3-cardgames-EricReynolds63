@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;   // WeÅfll need this line later in the chapt
 [RequireComponent(typeof(JsonParseLayout))]
 public class Prospector : MonoBehaviour {
     private static Prospector S; // A private Singleton for Prospector
+
+    [Header("Inscribed")]
+    public float                roundDelay = 2f;  // 2 sec delay between rounds
  
     [Header("Dynamic")]
     public List<CardProspector> drawPile;
@@ -244,8 +247,13 @@ public class Prospector : MonoBehaviour {
  
         // Reset the CardSpritesSO singleton to null
         CardSpritesSO.RESET();
+        Invoke ("ReloadLevel", roundDelay);
+        // SceneManager.LoadScene("__Prospector_Scene_0");
+    }
+
+    void ReloadLevel() {
         // Reload the scene, resetting the game
-        SceneManager.LoadScene( "__Prospector_Scene_0" );
+        SceneManager.LoadScene("__Prospector_Scene_0");
     }
 
     /// <summary>
