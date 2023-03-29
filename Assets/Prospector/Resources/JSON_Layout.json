@@ -237,9 +237,21 @@
         "xStagger": 0.15
     },
     "discardPile": {
-        "x": 3,
+        "x": -4,
         "y": -5,
         "layer": "Discard",
         "xStagger": 0
+    },
+	"wastePile": {
+        "x": 4,
+        "y": -5,
+        "layer": "Waste",
+        "xStagger": 0.15
+    },
+	"matchedPile": {
+        "x": 6,
+        "y": -5,
+        "layer": "Waste",
+        "xStagger": 0.15
     }
 }
