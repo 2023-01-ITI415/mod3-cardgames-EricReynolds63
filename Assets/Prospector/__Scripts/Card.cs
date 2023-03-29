@@ -235,17 +235,27 @@ public class Card : MonoBehaviour {
     /// <param name="wrap">If true (default) Ace and King wrap</param>
     /// <returns>true, if the cards are adjacent</returns>
     public bool AdjacentTo(Card otherCard, bool wrap=true) {
+
+		if (otherCard == null) {
+
+			//This would mean this is Card A of a match
+			//For now, just return true and move it to target
+
+		}
+
         // If either card is face-down, itfs not a valid match.
         if (!faceUp || !otherCard.faceUp) return (false);
  
-        // If the ranks are 1 apart, they are adjacent
-        if (Mathf.Abs(rank - otherCard.rank) == 1) return (true);
+        // If the ranks add to 13, they are """adjacent"""	(kinda hacky but hey)
+        if ((rank + otherCard.rank) == 13) return (true);
  
+		/*
         if (wrap) {  // If wrap == true, Ace and King are treated as adjacent
             // If one Card is Ace and the other King, they are adjacent
             if (rank == 1  && otherCard.rank == 13) return (true);
             if (rank == 13 && otherCard.rank == 1) return (true);
         }
+		*/
 
         return (false);  // Otherwise, return false
     }

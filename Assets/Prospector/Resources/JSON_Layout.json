@@ -231,13 +231,13 @@
         }
     ],
     "drawPile": {
-        "x": -3,
+        "x": -4,
         "y": -5,
         "layer": "Draw",
         "xStagger": 0.15
     },
     "discardPile": {
-        "x": -4,
+        "x": 6,
         "y": -5,
         "layer": "Discard",
         "xStagger": 0

@@ -21,6 +21,10 @@ public class Prospector : MonoBehaviour {
     private Deck       deck;
     private JsonLayout jsonLayout;
 
+	public bool	   firstCard;
+	public CardProspector A = null;
+	public CardProspector B = null;
+
     // A Dictionary to pair mine layout IDs and actual Cards
     private Dictionary<int, CardProspector> mineIdToCardDict;
  
@@ -40,8 +44,9 @@ public class Prospector : MonoBehaviour {
 
         LayoutMine();
 
-		// Set up the initial target card
-        MoveToTarget( Draw () );
+		// DON'T Set up the initial target card
+        //MoveToTarget( Draw () );
+		firstCard = true;
 
         // Set up the draw pile
         UpdateDrawPile();
@@ -183,7 +188,10 @@ public class Prospector : MonoBehaviour {
             cpPos.z = 0.1f * i;
             cp.SetLocalPos(cpPos);
  
-            cp.faceUp = false; // DrawPile Cards are all face-down
+            // DrawPile Cards are all face-down
+			cp.faceUp = false;
+			if (i == 0) cp.faceUp = true;
+			
             cp.state = eCardState.drawpile;
             // Set depth sorting
             cp.SetSpriteSortingLayer(jsonLayout.drawPile.layer);
@@ -266,7 +274,12 @@ public class Prospector : MonoBehaviour {
         // The reaction is determined by the state of the clicked card
         switch (cp.state) {
         case eCardState.target:
-            // Clicking the target card does nothing
+			// Made the target the top card of the deck
+            // Clicking *any* card in the drawPile will draw the next card
+            // Call two methods on the Prospector Singleton S
+            S.MoveToTarget( S.Draw() );  // Draw a new target card
+            S.UpdateDrawPile();          // Restack the drawPile
+            ScoreManager.TALLY( eScoreEvent.draw );
             break;
         case eCardState.drawpile:
             // Clicking *any* card in the drawPile will draw the next card
@@ -281,15 +294,36 @@ public class Prospector : MonoBehaviour {
  
             // If the card is face-down, itÅfs not valid
             if (!cp.faceUp) validMatch = false;
- 
-            // If itÅfs not an adjacent rank, itÅfs not valid
-            if (!cp.AdjacentTo(S.target)) validMatch = false;
+
+			// CHECK IF FIRST OR SECOND CARD OF MATCH
+			if (S.firstCard) {		//Exception covered below for King, which is a 1 card match
+				S.A = cp;	//Save as Card A
+				if (cp.rank == 13) {
+					validMatch = true;
+					S.firstCard = true;
+				} else {
+					validMatch = false;
+					S.firstCard = false;
+				}
+				//if (cp.rank != 13) { validMatch = true; }
+			} else {
+				S.B = cp;	//Save as Card B
+				if (!cp.AdjacentTo(S.A)) validMatch = false;
+				if (validMatch) { S.firstCard = true; }
+			}
  
             if (validMatch) {        // If itÅfs a valid card
-                S.mine.Remove(cp);   // Remove it from the tableau List
-                S.MoveToTarget(cp);  // Make it the target card
+                S.mine.Remove(S.A);   // Remove it from the tableau List
+				S.MoveToTarget(S.A);  // Make it the target card
+				S.A = null;
+				if (S.B != null) {		// In the case of a King solo match, there is no B
+					S.mine.Remove(S.B);   // Remove it from the tableau List
+					S.MoveToTarget(S.B);  // Make it the target card
+					S.B = null;
+				}
+				
 
-				S.SetMineFaceUps();
+				//S.SetMineFaceUps();
                 ScoreManager.TALLY( eScoreEvent.mine );
             }
             break;
