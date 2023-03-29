@@ -280,23 +280,26 @@ public class Prospector : MonoBehaviour {
 				S.A = S.drawPile[0];  // Take top draw pile card to compare with
 				S.firstCard = false;
 			} else {
-				/*
-				if (S.Draw().AdjacentTo(S.A)) {        // If itÅfs a valid card
-					S.mine.Remove(S.A);   // Remove it from the tableau List
-					S.MoveToTarget(S.A);  // Make it the target card
-					S.A = null;
-					S.mine.Remove(S.B);   // Remove it from the tableau List
+				S.B = S.drawPile[0];
+				if (S.A.AdjacentTo(S.B) || S.B.rank == 13) {        // If itÅfs a valid card
+					if (S.A != null) {		// In the case of a King solo match, there is no B
+						S.mine.Remove(S.A);   // Remove it from the tableau List
+						S.MoveToTarget(S.A);  // Make it the target card
+						S.A = null;
+					}
 					S.MoveToTarget(S.B);  // Make it the target card
+					if (S.B == S.drawPile[0]) {
+						S.drawPile.RemoveAt(0);
+						S.UpdateDrawPile();
+					}
 					S.B = null;
-
-					//S.SetMineFaceUps();
+					S.firstCard = true;
 					ScoreManager.TALLY( eScoreEvent.mine );
 				} else {
 					S.A = null;
-						S.B = null;
-						S.firstCard = true;
+					S.B = null;
+					S.firstCard = true;
 				}
-				*/
 			}
             
             break;
