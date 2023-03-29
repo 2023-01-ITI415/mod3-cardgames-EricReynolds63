@@ -161,7 +161,7 @@ public class Prospector : MonoBehaviour {
         MoveToDiscard(cp);
  
         // Then set a few additional things to make cp the new target
-        target = cp; // cp is the new target
+        target = cp; 
         cp.state = eCardState.target;
  
         // Set the depth sorting so that cp is on top of the discardPile
@@ -274,19 +274,31 @@ public class Prospector : MonoBehaviour {
         // The reaction is determined by the state of the clicked card
         switch (cp.state) {
         case eCardState.target:
-			// Made the target the top card of the deck
-            // Clicking *any* card in the drawPile will draw the next card
-            // Call two methods on the Prospector Singleton S
-            S.MoveToTarget( S.Draw() );  // Draw a new target card
-            S.UpdateDrawPile();          // Restack the drawPile
-            ScoreManager.TALLY( eScoreEvent.draw );
-            break;
+			// Do nothing
         case eCardState.drawpile:
-            // Clicking *any* card in the drawPile will draw the next card
-            // Call two methods on the Prospector Singleton S
-            S.MoveToTarget( S.Draw() );  // Draw a new target card
-            S.UpdateDrawPile();          // Restack the drawPile
-            ScoreManager.TALLY( eScoreEvent.draw );
+			if (S.firstCard == true) {
+				S.A = S.drawPile[0];  // Take top draw pile card to compare with
+				S.firstCard = false;
+			} else {
+				/*
+				if (S.Draw().AdjacentTo(S.A)) {        // If itÅfs a valid card
+					S.mine.Remove(S.A);   // Remove it from the tableau List
+					S.MoveToTarget(S.A);  // Make it the target card
+					S.A = null;
+					S.mine.Remove(S.B);   // Remove it from the tableau List
+					S.MoveToTarget(S.B);  // Make it the target card
+					S.B = null;
+
+					//S.SetMineFaceUps();
+					ScoreManager.TALLY( eScoreEvent.mine );
+				} else {
+					S.A = null;
+						S.B = null;
+						S.firstCard = true;
+				}
+				*/
+			}
+            
             break;
         case eCardState.mine:
             // Clicking a card in the mine will check if itÅfs a valid play
@@ -308,11 +320,23 @@ public class Prospector : MonoBehaviour {
 				//if (cp.rank != 13) { validMatch = true; }
 			} else {
 				S.B = cp;	//Save as Card B
-				if (!cp.AdjacentTo(S.A)) validMatch = false;
+				if (!cp.AdjacentTo(S.A)) {	//If not a match
+					validMatch = false; 
+					if (S.B != null) {		//If not a match, after checking both cards
+						S.A = null;
+						S.B = null;
+						S.firstCard = true;
+						break;
+					}
+				}
 				if (validMatch) { S.firstCard = true; }
 			}
  
             if (validMatch) {        // If itÅfs a valid card
+				if (S.A == S.drawPile[0]) {
+					S.drawPile.RemoveAt(0);
+					S.UpdateDrawPile();
+				}
                 S.mine.Remove(S.A);   // Remove it from the tableau List
 				S.MoveToTarget(S.A);  // Make it the target card
 				S.A = null;
@@ -322,8 +346,6 @@ public class Prospector : MonoBehaviour {
 					S.B = null;
 				}
 				
-
-				//S.SetMineFaceUps();
                 ScoreManager.TALLY( eScoreEvent.mine );
             }
             break;
