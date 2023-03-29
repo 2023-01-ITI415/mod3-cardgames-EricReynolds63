@@ -14,7 +14,8 @@ public class Prospector : MonoBehaviour {
     [Header("Dynamic")]
     public List<CardProspector> drawPile;
     public List<CardProspector> discardPile;
-    public List<CardProspector> mine; 
+    public List<CardProspector> mine;
+	public List<CardProspector> wastePile;
     public CardProspector       target;
  
     private Transform  layoutAnchor; 
@@ -147,6 +148,28 @@ public class Prospector : MonoBehaviour {
         // Place it on top of the pile for depth sorting
         cp.SetSpriteSortingLayer(jsonLayout.discardPile.layer);
         cp.SetSortingOrder(-200 + (discardPile.Count * 3) );
+    }
+
+	void MoveToWaste(CardProspector cp) {									//IN PROGRESS
+        // Set the state of the card to waste
+        cp.state = eCardState.waste;
+        wastePile.Add(cp);  // Add it to the discardPile List<>
+        cp.transform.SetParent(layoutAnchor); // Update its transform parent
+		drawPile.RemoveAt(0);
+		UpdateDrawPile();
+
+        // Position it on the discardPile
+        cp.SetLocalPos(new Vector3(
+            jsonLayout.multiplier.x * jsonLayout.wastePile.x,
+            jsonLayout.multiplier.y * jsonLayout.wastePile.y,
+            0));
+
+        cp.faceUp = true;
+ 
+        // Place it on top of the pile for depth sorting
+        cp.SetSpriteSortingLayer(jsonLayout.wastePile.layer);
+        cp.SetSortingOrder(-200 + (wastePile.Count * 3) );
+		UpdateDrawPile();
     }
  
     /// <summary>
@@ -296,9 +319,17 @@ public class Prospector : MonoBehaviour {
 					S.firstCard = true;
 					ScoreManager.TALLY( eScoreEvent.mine );
 				} else {
-					S.A = null;
-					S.B = null;
-					S.firstCard = true;
+					
+					if (S.A == S.B) { //Tried to match the top card of draw pile with self, move to waste
+						S.MoveToWaste(S.A);
+						S.A = null;
+						S.B = null;
+						S.firstCard = true;
+					} else {
+						S.A = null;
+						S.B = null;
+						S.firstCard = true;
+					}
 				}
 			}
             
@@ -352,6 +383,37 @@ public class Prospector : MonoBehaviour {
                 ScoreManager.TALLY( eScoreEvent.mine );
             }
             break;
+		case eCardState.waste:
+			if (S.firstCard == true) {
+				S.A = S.wastePile[0];  // Take top draw pile card to compare with
+				S.firstCard = false;
+			} else {
+				S.B = S.wastePile[0];
+				if (S.A.AdjacentTo(S.B) || S.B.rank == 13) {        // If itÅfs a valid card
+					if (S.A != null) {		// In the case of a King solo match, there is no B
+						S.mine.Remove(S.A);   // Remove it from the tableau List
+						S.MoveToTarget(S.A);  // Make it the target card
+						S.A = null;
+					}
+					S.MoveToTarget(S.B);  // Make it the target card
+					if (S.B == S.wastePile[0]) {
+						S.wastePile.RemoveAt(0);
+					}
+					if (S.A == S.drawPile[0]) {
+						S.drawPile.RemoveAt(0);
+						S.UpdateDrawPile();
+					}
+					S.B = null;
+					S.firstCard = true;
+					ScoreManager.TALLY( eScoreEvent.mine );
+				} else {
+					//Failed to match, reset params
+					S.A = null;
+					S.B = null;
+					S.firstCard = true;
+				}
+			}
+			break;
         }
         S.CheckForGameOver();
     }

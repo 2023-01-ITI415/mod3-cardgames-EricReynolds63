@@ -243,7 +243,7 @@
         "xStagger": 0
     },
 	"wastePile": {
-        "x": 4,
+        "x": 2,
         "y": -5,
         "layer": "Waste",
         "xStagger": 0.15
