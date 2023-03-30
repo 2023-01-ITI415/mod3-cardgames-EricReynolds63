@@ -309,13 +309,13 @@ public class Prospector : MonoBehaviour {
 				S.B = S.drawPile[0];
 				if (S.A.AdjacentTo(S.B) || S.B.rank == 13) {        // If itÅfs a valid card
 					if (S.A != null) {		// In the case of a King solo match, there is no B
+						if (S.wastePile.Count != 0 &&  S.A == S.wastePile[S.wastePile.Count-1]) {
+							Debug.Log("Applying tactical print statement");
+							S.wastePile.RemoveAt(S.wastePile.Count - 1);
+						}
 						S.mine.Remove(S.A);   // Remove it from the tableau List
 						S.MoveToTarget(S.A);  // Make it the target card
 						S.A = null;
-					}
-					if (S.wastePile.Count != 0 &&  S.A == S.wastePile[S.wastePile.Count-1]) {
-						Debug.Log("Applying tactical print statement");
-						S.wastePile.RemoveAt(S.wastePile.Count - 1);
 					}
 					S.MoveToTarget(S.B);  // Make it the target card
 					if (S.B == S.drawPile[0]) {
