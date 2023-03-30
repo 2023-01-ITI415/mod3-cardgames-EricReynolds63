@@ -114,6 +114,7 @@ public class Prospector : MonoBehaviour {
 
             cp.layoutID = slot.id;
             cp.layoutSlot = slot;
+
             // CardProspectors in the mine have the state CardState.mine
             cp.state = eCardState.mine;
 
@@ -122,9 +123,24 @@ public class Prospector : MonoBehaviour {
 
             mine.Add(cp); // Add this CardProspector to the List<> mine
 
+			cp.hiddenByString = slot.hiddenByString;
+
             // Add this CardProspector to the mineIDtoCardDict Dictionary
             mineIdToCardDict.Add(slot.id, cp);
+
         }
+		//Now that each slot is set up, set up hiddenBy connections
+		for (int i = 0; i < mineIdToCardDict.Count; i++) {
+			cp = mineIdToCardDict[i];
+			if (!cp.hiddenByString.Equals("")) {						//If the card is supposed to be hidden
+				string[] hiders = cp.hiddenByString.Split(",");	//Get the cards supposed to hide it
+				Debug.Log("#" + i + " : " + hiders[0] + " " + hiders[1]);
+				foreach (string hider in hiders) {
+					int id = int.Parse(hider);						//Make each a number
+					cp.hiddenBy.Add(mineIdToCardDict[id]);			//Add the card with that id number to hiddenBy list
+				}
+			}
+		}
     }
 
     /// <summary>
@@ -372,7 +388,11 @@ public class Prospector : MonoBehaviour {
 				}
 				if (validMatch) { S.firstCard = true; }
 			}
- 
+			
+			// If either card is still hidden (partially covered by a card on a row stacked on top), itfs not a valid match.
+
+			//if (S.A = hidden || S.B = hidden) { validMatch = false };
+
             if (validMatch) {        // If itfs a valid card
 				if (S.drawPile.Count > 0 && S.A == S.drawPile[0]) {
 					S.drawPile.RemoveAt(0);
