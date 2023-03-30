@@ -134,7 +134,7 @@ public class Prospector : MonoBehaviour {
 			cp = mineIdToCardDict[i];
 			if (!cp.hiddenByString.Equals("")) {						//If the card is supposed to be hidden
 				string[] hiders = cp.hiddenByString.Split(",");	//Get the cards supposed to hide it
-				Debug.Log("#" + i + " : " + hiders[0] + " " + hiders[1]);
+				//Debug.Log("#" + i + " : " + hiders[0] + " " + hiders[1]);
 				foreach (string hider in hiders) {
 					int id = int.Parse(hider);						//Make each a number
 					cp.hiddenBy.Add(mineIdToCardDict[id]);			//Add the card with that id number to hiddenBy list
@@ -201,7 +201,7 @@ public class Prospector : MonoBehaviour {
  
         // Then set a few additional things to make cp the new target
         target = cp; 
-        cp.state = eCardState.target;
+        cp.state = eCardState.discard;
  
         // Set the depth sorting so that cp is on top of the discardPile
         cp.SetSpriteSortingLayer( "Target" );
@@ -317,12 +317,28 @@ public class Prospector : MonoBehaviour {
         switch (cp.state) {
         case eCardState.target:
 			// Do nothing
-        case eCardState.drawpile:
+        case eCardState.drawpile:							// This is almost completely unreadable code, but hey, it works
 			if (S.firstCard == true) {
 				S.A = S.drawPile[0];  // Take top draw pile card to compare with
 				S.firstCard = false;
 			} else {
 				S.B = S.drawPile[0];
+				if ( S.A != null &&	S.A.hiddenBy.Count != 0						//If A exists, would normally be covered by cards...
+				&& (S.A.hiddenBy[0].state != eCardState.discard || S.A.hiddenBy[1].state != eCardState.discard )	//And still is
+				) {
+					Debug.Log("Hidden A1");
+					S.A = null;
+					S.B = null;
+					S.firstCard = true;
+					break; }									//Cannot be matched with
+				if ( S.B != null &&	S.B.hiddenBy.Count != 0						//If A exists, would normally be covered by cards...
+				&& (S.B.hiddenBy[0].state != eCardState.discard || S.B.hiddenBy[1].state != eCardState.discard )	//And still is
+				) {
+					Debug.Log("Hidden B1");
+					S.A = null;
+					S.B = null;
+					S.firstCard = true;
+					break; }									//Cannot be matched with
 				if (S.A.AdjacentTo(S.B) || S.B.rank == 13) {        // If itfs a valid card
 					if (S.A != null) {		// In the case of a King solo match, there is no B
 						if (S.wastePile.Count != 0 &&  S.A == S.wastePile[S.wastePile.Count-1]) {
@@ -391,7 +407,22 @@ public class Prospector : MonoBehaviour {
 			
 			// If either card is still hidden (partially covered by a card on a row stacked on top), itfs not a valid match.
 
-			//if (S.A = hidden || S.B = hidden) { validMatch = false };
+			if ( S.A != null &&	S.A.hiddenBy.Count != 0						//If A exists, would normally be covered by cards...
+				&& (S.A.hiddenBy[0].state != eCardState.discard || S.A.hiddenBy[1].state != eCardState.discard )	//And still is
+				) {
+					Debug.Log("Hidden A2 " + S.A.hiddenBy[0].state + ", " + S.A.hiddenBy[1].state );
+					S.A = null;
+					S.B = null;
+					S.firstCard = true;
+					validMatch = false; }									//Cannot be matched with
+			if ( S.B != null &&	S.B.hiddenBy.Count != 0						//If A exists, would normally be covered by cards...
+				&& (S.B.hiddenBy[0].state != eCardState.discard || S.B.hiddenBy[1].state != eCardState.discard )	//And still is
+				) {
+					Debug.Log("Hidden B2");
+					S.A = null;
+					S.B = null;
+					S.firstCard = true;
+					validMatch = false; }									//Cannot be matched with
 
             if (validMatch) {        // If itfs a valid card
 				if (S.drawPile.Count > 0 && S.A == S.drawPile[0]) {
