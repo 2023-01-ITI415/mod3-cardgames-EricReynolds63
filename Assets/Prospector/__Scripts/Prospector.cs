@@ -274,10 +274,11 @@ public class Prospector : MonoBehaviour {
         // Check for remaining valid plays
         foreach ( CardProspector cp in mine ) {
             // If there is a valid play, the gamefs not over
-            if ((S.drawPile.Count > 0 &&	
-				S.drawPile[0].AdjacentTo( cp ) ) ||									//There's a play in the draw pile or...
-				(S.wastePile.Count > 0 &&											//(Assuming a waste pile exists)
-				S.wastePile[S.wastePile.Count-1].AdjacentTo( cp ) ) ) return;		//There's a play in the waste pile
+            if ( (cp.hiddenBy.Count != 0 && cp.hiddenBy[0].state != eCardState.discard &&
+					cp.hiddenBy[1].state != eCardState.discard) &&					//The card  we're looking at isn't covered and...
+				( (S.drawPile.Count > 0 && S.drawPile[0].AdjacentTo( cp ) ) ||				  //There's a play in the draw pile or...
+				(S.wastePile.Count == 0 && S.wastePile[S.wastePile.Count-1].AdjacentTo( cp ) ) ) //There's a play in the waste pile
+				) return;		
         }
  
         // Since there are no valid plays, the game is over
