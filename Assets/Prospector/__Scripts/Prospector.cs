@@ -247,7 +247,7 @@ public class Prospector : MonoBehaviour {
     /// </summary>
     void CheckForGameOver() {
         // If the mine is empty, the game is over
-        if ( mine.Count == 0 ) {
+        if (mine.Count == 0) {
             GameOver( true );  // Call GameOver() with a win
             return;
         }
@@ -258,7 +258,10 @@ public class Prospector : MonoBehaviour {
         // Check for remaining valid plays
         foreach ( CardProspector cp in mine ) {
             // If there is a valid play, the gamefs not over
-            if ( target.AdjacentTo( cp ) ) return;
+            if ((S.drawPile.Count > 0 &&	
+				S.drawPile[0].AdjacentTo( cp ) ) ||									//There's a play in the draw pile or...
+				(S.wastePile.Count > 0 &&											//(Assuming a waste pile exists)
+				S.wastePile[S.wastePile.Count-1].AdjacentTo( cp ) ) ) return;		//There's a play in the waste pile
         }
  
         // Since there are no valid plays, the game is over
@@ -371,7 +374,7 @@ public class Prospector : MonoBehaviour {
 			}
  
             if (validMatch) {        // If itfs a valid card
-				if (S.A == S.drawPile[0]) {
+				if (S.drawPile.Count > 0 && S.A == S.drawPile[0]) {
 					S.drawPile.RemoveAt(0);
 					S.UpdateDrawPile();
 				}
@@ -398,7 +401,7 @@ public class Prospector : MonoBehaviour {
 				S.B = S.wastePile[S.wastePile.Count - 1];
 				if (S.A.AdjacentTo(S.B) || S.B.rank == 13) {        // If itfs a valid card
 					if (S.A != null) {		// In the case of a King solo match, there is no B
-						if (S.A == S.drawPile[0]) {
+						if (S.drawPile.Count > 0 && S.A == S.drawPile[0]) {
 							Debug.Log(":V");
 							S.drawPile.RemoveAt(0);
 							S.UpdateDrawPile();
