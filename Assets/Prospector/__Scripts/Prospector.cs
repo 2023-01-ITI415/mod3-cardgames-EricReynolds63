@@ -310,6 +310,10 @@ public class Prospector : MonoBehaviour {
 						S.MoveToTarget(S.A);  // Make it the target card
 						S.A = null;
 					}
+					if (S.wastePile.Count != 0 &&  S.A == S.wastePile[S.wastePile.Count-1]) {
+						Debug.Log("Applying tactical print statement");
+						S.wastePile.RemoveAt(S.wastePile.Count - 1);
+					}
 					S.MoveToTarget(S.B);  // Make it the target card
 					if (S.B == S.drawPile[0]) {
 						S.drawPile.RemoveAt(0);
@@ -371,6 +375,9 @@ public class Prospector : MonoBehaviour {
 					S.drawPile.RemoveAt(0);
 					S.UpdateDrawPile();
 				}
+				if (S.wastePile.Count != 0 &&  S.A == S.wastePile[S.wastePile.Count-1]) {
+					S.wastePile.RemoveAt(S.wastePile.Count - 1);
+				}
                 S.mine.Remove(S.A);   // Remove it from the tableau List
 				S.MoveToTarget(S.A);  // Make it the target card
 				S.A = null;
@@ -385,24 +392,24 @@ public class Prospector : MonoBehaviour {
             break;
 		case eCardState.waste:
 			if (S.firstCard == true) {
-				S.A = S.wastePile[0];  // Take top draw pile card to compare with
+				S.A = S.wastePile[S.wastePile.Count - 1];  // Take top draw pile card to compare with
 				S.firstCard = false;
 			} else {
-				S.B = S.wastePile[0];
+				S.B = S.wastePile[S.wastePile.Count - 1];
 				if (S.A.AdjacentTo(S.B) || S.B.rank == 13) {        // If itÅfs a valid card
 					if (S.A != null) {		// In the case of a King solo match, there is no B
+						if (S.A == S.drawPile[0]) {
+							Debug.Log(":V");
+							S.drawPile.RemoveAt(0);
+							S.UpdateDrawPile();
+						}
 						S.mine.Remove(S.A);   // Remove it from the tableau List
 						S.MoveToTarget(S.A);  // Make it the target card
 						S.A = null;
 					}
 					S.MoveToTarget(S.B);  // Make it the target card
-					if (S.B == S.wastePile[0]) {
-						S.wastePile.RemoveAt(0);
-					}
-					if (S.A == S.drawPile[0]) {
-						S.drawPile.RemoveAt(0);
-						S.UpdateDrawPile();
-					}
+					Debug.Log("I am livid");						// Load bearing print statement. Apparently.
+					S.wastePile.RemoveAt(S.wastePile.Count - 1);
 					S.B = null;
 					S.firstCard = true;
 					ScoreManager.TALLY( eScoreEvent.mine );
