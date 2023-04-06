@@ -105,7 +105,7 @@ namespace Original {
 			GameObject go = Instantiate<GameObject>( prefabCard, deckAnchor );
 
 			Card card = go.GetComponent<Card>();
- 
+
 			card.Init(suit, rank, startFaceUp);
 			return card;
 		}
