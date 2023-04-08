@@ -314,11 +314,18 @@ namespace Original {
 					S.MoveToTarget(cp);  // Make it the target card
 
 					S.SetMineFaceUps();
-					ScoreManager.TALLY( eScoreEvent.mine );
+					S.MineScore();
+					if (cp.type == eCardType.silver) {
+						S.Invoke("MineScore", 0.5f);
+					}
 				}
 				break;
 			}
 			S.CheckForGameOver();
+		}
+
+		public void MineScore () {
+			ScoreManager.TALLY( eScoreEvent.mine );
 		}
 
 	}
