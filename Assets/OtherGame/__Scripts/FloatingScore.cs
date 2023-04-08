@@ -21,9 +21,14 @@ namespace Original {
 			get { return (_score); }
 			set {
 				_score = value;
-				textField.text = _score.ToString("#,##0");
+				if (mult >= 2) { 
+					textField.text = _score.ToString("#,##0") + " x " + mult.ToString("#,##0");
+				} else {
+					textField.text = _score.ToString("#,##0");
+				}
 			}
 		}
+		public int mult = 1;
  
 		// Define a function delegate type with one FloatingScore parameter.
 		public delegate void FloatingScoreDelegate(FloatingScore fs);
@@ -81,7 +86,11 @@ namespace Original {
 		/// allows them to add their score to this one.
 		/// </summary>
 		/// <param name="fs">A FloatingScore passing its score to this one</param>
-		public void FSCallback(FloatingScore fs) { score += fs.score; }
+		public void FSCallback(FloatingScore fs) {
+		
+			score += fs.score;
+			if (fs.mult > mult) { mult = fs.mult; }
+		}
 
 		void OnEnable() { FS_ALL.Add( this ); }
 		void OnDisable() { FS_ALL.Remove( this ); }

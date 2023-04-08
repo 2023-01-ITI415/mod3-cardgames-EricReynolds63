@@ -329,6 +329,9 @@ namespace Original {
 					S.MoveToTarget(cp);  // Make it the target card
 
 					S.SetMineFaceUps();
+					if (cp.type == eCardType.gold) {
+						ScoreManager.ADDMULT();
+					}
 					S.MineScore();
 					if (cp.type == eCardType.silver) {
 						S.Invoke("MineScore", 0.5f);

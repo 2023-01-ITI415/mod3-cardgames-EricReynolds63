@@ -36,6 +36,7 @@ namespace Original {
 		public int            chain = 0;
 		public int            scoreRun = 0;
 		public int            score = 0;
+		public int			  mult = 1;
  
 		[Header( "Check this box to reset the ProspectorHighScore to 100" )]
 		public bool checkToResetHighScore = false;
@@ -61,6 +62,11 @@ namespace Original {
 			S.Tally( evt );
 		}
 
+		static public void ADDMULT() {
+			S.mult += 1;
+			Debug.Log("Mult:" + S.mult);
+		}
+
 		/// <summary>
 		/// Handle eScoreEvents (mostly sent by the Prospector class).
 		/// </summary>
@@ -78,6 +84,8 @@ namespace Original {
 				case eScoreEvent.gameLoss: // Lost the round
 					chain = 0;             // resets the score chain
 					score += scoreRun;     // add scoreRun to total score
+					score = score * mult;  // add gold card multiplier
+					mult = 1;			   // reset multiplier
 					scoreRun = 0;          // reset scoreRun
 					break; 
 			}
@@ -154,7 +162,7 @@ namespace Original {
 		}
  
 		// These static properties allow other classes to get ScoreManagerÅfs state
-		static public int CHAIN {  get { return S.chain; }  } // j
+		static public int CHAIN {  get { return S.chain; }  }
 		static public int SCORE {  get { return S.score; }  }
 		static public int SCORE_RUN {  get { return S.scoreRun; }  }
 
@@ -181,6 +189,7 @@ namespace Original {
 				FloatingScore fs = go.GetComponent<FloatingScore>();
 
 				fs.score = chain;// Set score of fs to the current chain value
+				fs.mult = mult;
 
 				// Get the current mousePosition in Canvas anchor coordinates
 				Vector2 mousePos = Input.mousePosition;

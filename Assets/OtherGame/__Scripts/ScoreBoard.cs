@@ -41,7 +41,7 @@ namespace Original {
  
 		// When called by SendMessage, this adds the fs.score to S.score
 		static public void FS_CALLBACK( FloatingScore fs ) {
-			SCORE += fs.score;
+			SCORE += (fs.score * fs.mult);
 		}
  
 	}
