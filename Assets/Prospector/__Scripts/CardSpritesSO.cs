@@ -77,9 +77,15 @@ public class CardSpritesSO : ScriptableObject {
 	public static Sprite SBACK {
         get { return S.cardBackSilver; }
     }
-
 	public static Sprite SFRONT {
         get { return S.cardFrontSilver; }
+    }
+
+	public static Sprite GBACK {
+        get { return S.cardBackGold; }
+    }
+	public static Sprite GFRONT {
+        get { return S.cardFrontGold; }
     }
  
     /// <summary>

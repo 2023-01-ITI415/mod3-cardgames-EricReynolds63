@@ -19,6 +19,7 @@ namespace Original {
 		public List<CardProspector> mine; 
 		public List<CardProspector> potentialSpecialCards;
 		public List<float>			silverCardChances;
+		public List<float>			goldCardChances;
 		public CardProspector       target;
  
 		private Transform  layoutAnchor; 
@@ -127,11 +128,19 @@ namespace Original {
 			}
 
 			int silverCards = 0;
+			int goldCards = 0;
 
 			for (int i = 0; i < silverCardChances.Count; i++) {
 				if (Random.value <= silverCardChances[i]) {
 					//Make a card silver
 					silverCards += 1;
+				}
+			}
+
+			for (int i = 0; i < goldCardChances.Count; i++) {
+				if (Random.value <= goldCardChances[i]) {
+					//Make a card silver
+					goldCards += 1;
 				}
 			}
 
@@ -141,6 +150,12 @@ namespace Original {
 				CardProspector scp = potentialSpecialCards[Random.Range( 0 , (potentialSpecialCards.Count - 1) )];
 				scp.ConvertToSilver(scp);
 				potentialSpecialCards.Remove(scp);
+			}
+
+			for (int i = 0; i < goldCards; i++) {
+				CardProspector gcp = potentialSpecialCards[Random.Range( 0 , (potentialSpecialCards.Count - 1) )];
+				gcp.ConvertToGold(gcp);
+				potentialSpecialCards.Remove(gcp);
 			}
 
 		}

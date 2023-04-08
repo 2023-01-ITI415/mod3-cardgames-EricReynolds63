@@ -6,7 +6,7 @@ namespace Original {
 
 	// This enum defines the variable type eCardState with four named values.
 	public enum eCardState { drawpile, mine, target, discard }
-	public enum eCardType { normal, silver }
+	public enum eCardType { normal, silver, gold }
  
 	public class CardProspector : Card { // Make CardProspector extend Card
 		[Header("Dynamic: CardProspector")]
@@ -35,6 +35,14 @@ namespace Original {
 			cp.back.GetComponent<SpriteRenderer>().sprite = CardSpritesSO.SBACK;
 			Debug.Log("Converted to Silver!");
 		}
+
+		public void ConvertToGold(CardProspector cp) {
+			cp.type = eCardType.gold;
+			cp.GetComponent<SpriteRenderer>().sprite = CardSpritesSO.GFRONT;
+			cp.back.GetComponent<SpriteRenderer>().sprite = CardSpritesSO.GBACK;
+			Debug.Log("Converted to Gold!");
+		}
+
 	}
 
 }
