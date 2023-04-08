@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardBack: {fileID: 5781487900595204849, guid: a8185ed8d47594bb8a3b8e2d9233f769,
     type: 3}
+  cardBackSilver: {fileID: 5828774157582541231, guid: 8382909428efc40dfb1c978ce3041414,
+    type: 3}
   cardBackGold: {fileID: 5828774157582541231, guid: 8ecf4828943064b3a96f6258b54c0f11,
     type: 3}
   cardFront: {fileID: -6342509809414427620, guid: 873a7658b7ec742228520c7b15510f4d,
+    type: 3}
+  cardFrontSilver: {fileID: 5828774157582541231, guid: 7dd888151a356c14084c75525fcf5314,
     type: 3}
   cardFrontGold: {fileID: 7763024756852999351, guid: 944dc539459fe4109b973bd4c97f68ee,
     type: 3}

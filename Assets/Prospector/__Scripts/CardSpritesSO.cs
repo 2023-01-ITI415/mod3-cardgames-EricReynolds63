@@ -7,8 +7,10 @@ using UnityEngine;
 public class CardSpritesSO : ScriptableObject {
     [Header("Card Stock")]
     public Sprite cardBack;
+	public Sprite cardBackSilver;
     public Sprite cardBackGold;
     public Sprite cardFront;
+	public Sprite cardFrontSilver;
     public Sprite cardFrontGold;
 
     [Header("Suits")]
@@ -70,6 +72,14 @@ public class CardSpritesSO : ScriptableObject {
     /// </summary>
     public static Sprite BACK {
         get { return S.cardBack; }
+    }
+
+	public static Sprite SBACK {
+        get { return S.cardBackSilver; }
+    }
+
+	public static Sprite SFRONT {
+        get { return S.cardFrontSilver; }
     }
  
     /// <summary>

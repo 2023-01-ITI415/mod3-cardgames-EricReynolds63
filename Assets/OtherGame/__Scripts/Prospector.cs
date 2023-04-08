@@ -17,6 +17,8 @@ namespace Original {
 		public List<CardProspector> drawPile;
 		public List<CardProspector> discardPile;
 		public List<CardProspector> mine; 
+		public List<CardProspector> potentialSpecialCards;
+		public List<float>			silverCardChances;
 		public CardProspector       target;
  
 		private Transform  layoutAnchor; 
@@ -120,7 +122,27 @@ namespace Original {
 
 				// Add this CardProspector to the mineIDtoCardDict Dictionary
 				mineIdToCardDict.Add(slot.id, cp);
+				potentialSpecialCards.Add(cp);
+
 			}
+
+			int silverCards = 0;
+
+			for (int i = 0; i < silverCardChances.Count; i++) {
+				if (Random.value <= silverCardChances[i]) {
+					//Make a card silver
+					silverCards += 1;
+				}
+			}
+
+			//Debug.Log("SC = " + silverCards);
+
+			for (int i = 0; i < silverCards; i++) {
+				CardProspector scp = potentialSpecialCards[Random.Range( 0 , (potentialSpecialCards.Count - 1) )];
+				scp.ConvertToSilver(scp);
+				potentialSpecialCards.Remove(scp);
+			}
+
 		}
 
 		/// <summary>
